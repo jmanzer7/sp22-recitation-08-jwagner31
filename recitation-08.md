@@ -1,5 +1,8 @@
 # CMPS 2200  Recitation 08
 
+Joe Wagner
+Luke Albright
+
 Today we'll learn more about graphs and how to navigate them. As usual, code goes in `main.py`
 
 
