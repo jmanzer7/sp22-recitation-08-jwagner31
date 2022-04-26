@@ -17,25 +17,35 @@ def reachable(graph, start_node):
     result = set([start_node])
     frontier = set([start_node])
     while len(frontier) != 0:
-        ###TODO
-        pass
+      currNode = frontier.pop()
+      result.add(currNode)
+      for neighbor in graph[currNode]:
+        if neighbor in result:
+          pass
+        else:
+          frontier.add(neighbor)
     return result
 
-def test_reachable():
-    graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B')])
-    assert sorted(reachable(graph, 'A')) == ['A', 'B', 'C', 'D']
 
-    graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B'), ('E', 'F'), ('F', 'G')])
-    assert sorted(reachable(graph, 'A')) == ['A', 'B', 'C', 'D']
-    assert sorted(reachable(graph, 'E')) == ['E', 'F', 'G']
+def test_reachable():
+  graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B')])
+  assert sorted(reachable(graph, 'A')) == ['A', 'B', 'C', 'D']
+  
+  graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B'), ('E', 'F'), ('F', 'G')])
+  assert sorted(reachable(graph, 'A')) == ['A', 'B', 'C', 'D']
+  assert sorted(reachable(graph, 'E')) == ['E', 'F', 'G']
 
 
 
 
 def connected(graph):
-    ### TODO
-    pass
-
+  list = sorted(reachable(graph, 'A'))
+  result = True
+  for key in graph:
+    if key not in list:
+      result = False
+  return result
+      
 def test_connected():
     graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B')])
     assert connected(graph) == True
@@ -45,12 +55,24 @@ def test_connected():
 
 
 def n_components(graph):
-    """
-    Returns:
-      the number of connected components in an undirected graph
-    """
-    ### TODO
-    pass
+  """
+  Returns:
+    the number of connected components in an undirected graph
+  """
+  unvisited = set(graph.keys())
+  components = 0
+  while len(unvisited) > 0:
+    components += 1
+    currNode = unvisited.pop()
+    neighbors = reachable(graph, currNode)
+    for element in neighbors:
+      if element in unvisited:
+        unvisited.remove(element)
+  return components
+    
+    
+  
+  
 
 def test_n_components():
     graph = make_undirected_graph([('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'B')])
